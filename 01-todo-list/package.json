@@ -1,0 +1,13 @@
+{
+  "name": "01-todo-list",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "author": "Jan Amann",
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "typescript": "^5.4.2",
+    "typescript-eslint": "^7.1.1"
+  }
+}
