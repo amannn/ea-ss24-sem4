@@ -3,11 +3,13 @@ export default class TodoList {
 
   constructor(node: HTMLUListElement) {
     this.node = node;
+
     // Optionally bind and guarantee the context of the add method
     // this.add = this.add.bind(this);
   }
 
   add(todo: string) {
+    // Concern 2: Append item
     const item = document.createElement('li');
     item.innerHTML = `
       <label>

@@ -1,9 +1,6 @@
+// Concern 1: Handle form submit
 export default class AddTodoForm {
-  onSubmit: (todo: string) => void;
-
   constructor(node: HTMLFormElement, onSubmit: (todo: string) => void) {
-    this.onSubmit = onSubmit;
-
     node.addEventListener('submit', (e) => {
       e.preventDefault();
 
@@ -15,7 +12,7 @@ export default class AddTodoForm {
       // Narrowing (runtime)
       // if (typeof todo !== 'string') return;
 
-      this.onSubmit(todo);
+      onSubmit(todo);
 
       node.reset();
     });
