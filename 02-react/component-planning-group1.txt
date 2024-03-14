@@ -1,0 +1,27 @@
+App (state: messages, isViewingMessages/route)
+  Navigation/Tabs (onViewMessages()/onRouteChange())
+  AddMessageView (onSubmit(...))
+    TextField
+    Button
+  MessagesView (messages, onToggleMessageRead(id: number))
+    MessagesViewSummary (numUnreadMessages/messages)
+    MessagesList (messages, onToggleMessageRead(id: number))
+      MessagesListItem (message, onToggleRead())
+
+---
+
+type Message = {
+  id: number
+  subject: string
+  body: string
+  unread: boolean
+}
+
+Which (dynamic) state?
+  // Messages
+  const [messages, setMessages] = useState<Array<Message>>([])
+    --> message count is derived
+
+  // Navigation
+  const [isViewingMessages, setIsViewingMessages] = useState(false)
+  const [route, setRoute] = useState<'addMessages' | 'messages'>('addMessages')

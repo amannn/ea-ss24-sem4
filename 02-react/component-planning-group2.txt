@@ -1,0 +1,27 @@
+App/MessageBoard (state: messages, tabIndex)
+  Header (messages, tabIndex, onTabChange(tabIndex))
+    Tabs/Navigation (messages, tabIndex, onTabChange(tabIndex))
+  AddMessageView (onSubmit(subject, body))
+    Input/TextField
+    Button
+  MessagesView (messages, onMessageRead)
+    MessagesSummary (messages)
+    MessagesList (messages, onMessageRead(id))
+      MessagesListItem (message, onMessageRead())
+
+---
+
+type Message = {
+  id: number
+  subject: string
+  body: string
+  read: boolean
+}
+
+Which (dynamic) state?
+  const [messages, setMessages] = useState<Array<Message>>([])
+    --> message count is derived
+
+  const [tabIndex] = useState(0)
+  const [tabName] = useState<'addMessage' | 'messages'>('addMessage')
+  const [isAddMessageViewVisible] = useState(true)
