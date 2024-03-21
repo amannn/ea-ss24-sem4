@@ -27,13 +27,7 @@ export default function TodoListItem({
     <li>
       <label className={className}>
         <input type="checkbox" onClick={onCompleteTodo} />
-        {todo.text} (
-        {format.dateTime(todo.createdAt, {
-          year: 'numeric',
-          month: 'short',
-          day: 'numeric'
-        })}
-        )
+        {todo.text} ({format.dateTime(todo.createdAt)})
       </label>
     </li>
   );

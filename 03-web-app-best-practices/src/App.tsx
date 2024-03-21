@@ -74,7 +74,7 @@ export default function App() {
 
   return (
     <IntlProvider
-      locale="en"
+      locale={locale}
       messages={messagesByLocale[locale]}
       timeZone="Europe/Vienna"
     >
