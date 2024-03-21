@@ -1,0 +1,12 @@
+.root {
+  display: flex;
+  gap: 10px;
+}
+
+.input {
+  font-size: 16px;
+}
+
+.button {
+  font-size: 16px;
+}

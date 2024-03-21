@@ -1,0 +1,12 @@
+.root {
+  display: block;
+  padding: 5px;
+}
+
+.default {
+  background-color: lightgray;
+}
+
+.highlighted {
+  background-color: lightgreen;
+}
