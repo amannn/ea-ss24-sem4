@@ -3,7 +3,9 @@ import Sound from './utils/Sound';
 
 export default function Theremin() {
   const isActive = useMouseDown();
+
   useTheremin(isActive);
+  useDiscoBackground(isActive);
 
   return (
     <p
@@ -16,6 +18,24 @@ export default function Theremin() {
       {isActive ? '💃🏻🕺🪩' : '🙄'}
     </p>
   );
+}
+
+function useDiscoBackground(isActive: boolean) {
+  useEffect(() => {
+    if (!isActive) return;
+
+    const initialBackgroundColor = document.body.style.backgroundColor;
+
+    const interval = setInterval(() => {
+      const hue = Math.random() * 360;
+      document.body.style.backgroundColor = `hsl(${hue}, 100%, 70%)`;
+    }, 1000);
+
+    return () => {
+      clearInterval(interval);
+      document.body.style.backgroundColor = initialBackgroundColor;
+    };
+  }, [isActive]);
 }
 
 function useTheremin(isActive: boolean) {
