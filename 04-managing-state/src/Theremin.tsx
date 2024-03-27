@@ -30,8 +30,25 @@ function useTheremin(isActive: boolean) {
     sound.setGain(0.5);
     sound.play();
 
+    // Adjust the frequency and gain based on the mouse position
+    function onMouseMove(event: MouseEvent) {
+      // Normalize the mouse position to a range of 0 … 1
+      const px = event.clientX / window.innerWidth;
+      const py = 1 - event.clientY / window.innerHeight;
+
+      const minFrequency = 440;
+      const maxFrequency = 440 * 3;
+      const frequency = minFrequency + (maxFrequency - minFrequency) * px;
+
+      sound.setFrequency(frequency);
+      sound.setGain(py);
+    }
+
+    window.addEventListener('mousemove', onMouseMove);
+
     // Always clean up after the party
     return () => {
+      window.removeEventListener('mousemove', onMouseMove);
       sound.dispose();
     };
   }, [isActive]);
