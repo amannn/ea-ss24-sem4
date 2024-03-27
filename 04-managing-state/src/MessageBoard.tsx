@@ -1,49 +1,24 @@
-import {useState} from 'react';
+import useMessageBoardModel from './useMessageBoardModel';
 import {generateMessage} from './utils/generateMessage';
 
-type Message = {
+export type Message = {
   subject: string;
   body: string;
   read: boolean;
 };
 
 export default function MessageBoard() {
-  const [messages, setMessages] = useState<Array<Message>>([]);
-  const unreadMessages = messages.filter((message) => !message.read);
-
-  function createMessage(message: Message) {
-    setMessages([message, ...messages]);
-  }
-
-  function updateMessage(
-    index: number,
-    /**
-     * `Partial` is a utility type in TypeScript that receives a type and makes
-     * all properties optional. We use it here to create a generic update
-     * function. See also: https://www.typescriptlang.org/docs/handbook/utility-types.html#partialtype
-     * */
-    input: Partial<Message>
-  ) {
-    const updatedMessage = {...messages[index], ...input};
-
-    const updatedMessages = messages.map((message, i) =>
-      i === index ? updatedMessage : message
-    );
-
-    setMessages(updatedMessages);
-  }
-
-  function markMessageAsRead(index: number) {
-    updateMessage(index, {read: true});
-  }
-
-  function markMessageAsUnread(index: number) {
-    updateMessage(index, {read: false});
-  }
-
-  function deleteMessage(index: number) {
-    setMessages([...messages.slice(0, index), ...messages.slice(index + 1)]);
-  }
+  // We use object destructuring here, just like we use it regularly
+  // for props that are received within a React component.
+  const {
+    messages,
+    unreadMessages,
+    createMessage,
+    updateMessage,
+    markMessageAsRead,
+    markMessageAsUnread,
+    deleteMessage
+  } = useMessageBoardModel();
 
   return (
     <div>
