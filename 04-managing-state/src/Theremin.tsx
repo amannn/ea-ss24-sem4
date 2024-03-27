@@ -1,7 +1,9 @@
 import {useEffect, useState} from 'react';
+import Sound from './utils/Sound';
 
 export default function Theremin() {
   const isActive = useMouseDown();
+  useTheremin(isActive);
 
   return (
     <p
@@ -14,6 +16,27 @@ export default function Theremin() {
       {isActive ? '💃🏻🕺🪩' : '🙄'}
     </p>
   );
+}
+
+function useTheremin(isActive: boolean) {
+  useEffect(() => {
+    // When `isActive` is `false`, don't do anything.
+    // An easy way to implement this is to return early.
+    if (!isActive) return;
+
+    // When it is `true`, play a sound
+    const sound = new Sound();
+    sound.setFrequency(440);
+    sound.setGain(0.5);
+    sound.play();
+
+    // Always clean up after the party
+    return () => {
+      sound.dispose();
+    };
+  }, [isActive]);
+  // Since `isActive` is present in this array (aka. it's a "dependency" of this effect),
+  // this effect will run initially, and then every time `isActive` changes.
 }
 
 function useMouseDown() {
