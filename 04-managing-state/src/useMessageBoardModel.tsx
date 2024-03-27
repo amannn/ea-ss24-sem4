@@ -1,9 +1,18 @@
 import {useState} from 'react';
 import {Message} from './MessageBoard';
 
+const initialState = JSON.parse(
+  localStorage.getItem('messages') || '[]'
+) as Array<Message>;
+
 export default function useMessageBoardModel() {
-  const [messages, setMessages] = useState<Array<Message>>([]);
+  const [messages, _setMessages] = useState<Array<Message>>(initialState);
   const unreadMessages = messages.filter((message) => !message.read);
+
+  function setMessages(messages: Array<Message>) {
+    _setMessages(messages);
+    localStorage.setItem('messages', JSON.stringify(messages));
+  }
 
   function createMessage(message: Message) {
     setMessages([message, ...messages]);
