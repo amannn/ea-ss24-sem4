@@ -2,10 +2,21 @@ import {useEffect, useState} from 'react';
 import Sound from './utils/Sound';
 
 export default function Theremin() {
-  const isActive = useMouseDown();
+  const isMouseDown = useMouseDown();
+  const isSpacePressed = useKeyDown('Space');
+  const isActive = isMouseDown && isSpacePressed;
 
   useTheremin(isActive);
   useDiscoBackground(isActive);
+
+  let emoji;
+  if (isActive) {
+    emoji = '💃🏻🕺🪩';
+  } else if (isSpacePressed || isMouseDown) {
+    emoji = '🤔';
+  } else {
+    emoji = '🙄';
+  }
 
   return (
     <p
@@ -15,9 +26,37 @@ export default function Theremin() {
         userSelect: 'none'
       }}
     >
-      {isActive ? '💃🏻🕺🪩' : '🙄'}
+      {emoji}
     </p>
   );
+}
+
+function useKeyDown(code: string) {
+  const [isKeyDown, setIsKeyDown] = useState(false);
+
+  useEffect(() => {
+    function onKeyDown(event: KeyboardEvent) {
+      if (event.code === code) {
+        setIsKeyDown(true);
+      }
+    }
+
+    function onKeyUp(event: KeyboardEvent) {
+      if (event.code === code) {
+        setIsKeyDown(false);
+      }
+    }
+
+    window.addEventListener('keydown', onKeyDown);
+    window.addEventListener('keyup', onKeyUp);
+
+    return () => {
+      window.removeEventListener('keydown', onKeyDown);
+      window.removeEventListener('keyup', onKeyUp);
+    };
+  }, [code]);
+
+  return isKeyDown;
 }
 
 function useDiscoBackground(isActive: boolean) {
