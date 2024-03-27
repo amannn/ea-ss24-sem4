@@ -2,10 +2,14 @@ import {useEffect, useState} from 'react';
 import Sound from './utils/Sound';
 
 export default function Theremin() {
+  // React state <- external events
   const isMouseDown = useMouseDown();
   const isSpacePressed = useKeyDown('Space');
+
+  // Compute derived state
   const isActive = isMouseDown && isSpacePressed;
 
+  // React state -> imperative APIs
   useTheremin(isActive);
   useDiscoBackground(isActive);
 
