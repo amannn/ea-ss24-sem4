@@ -1,8 +1,9 @@
-import {useEffect, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import Sound from './utils/Sound';
 
 export default function Theremin() {
   // React state <- external events
+  const mouseWindowPosition = useMouseWindowPosition();
   const isMouseDown = useMouseDown();
   const isSpacePressed = useKeyDown('Space');
 
@@ -10,7 +11,7 @@ export default function Theremin() {
   const isActive = isMouseDown && isSpacePressed;
 
   // React state -> imperative APIs
-  useTheremin(isActive);
+  useTheremin(isActive, mouseWindowPosition);
   useDiscoBackground(isActive);
 
   let emoji;
@@ -33,6 +34,27 @@ export default function Theremin() {
       {emoji}
     </p>
   );
+}
+
+function useMouseWindowPosition() {
+  const [pos, setPos] = useState<{px: number; py: number}>();
+
+  useEffect(() => {
+    function onMouseMove(event: MouseEvent) {
+      setPos({
+        px: event.clientX / window.innerWidth,
+        py: 1 - event.clientY / window.innerHeight
+      });
+    }
+
+    window.addEventListener('mousemove', onMouseMove);
+
+    return () => {
+      window.removeEventListener('mousemove', onMouseMove);
+    };
+  }, []);
+
+  return pos;
 }
 
 function useKeyDown(code: string) {
@@ -81,42 +103,43 @@ function useDiscoBackground(isActive: boolean) {
   }, [isActive]);
 }
 
-function useTheremin(isActive: boolean) {
+function useTheremin(
+  isActive: boolean,
+  pos?: {
+    px: number;
+    py: number;
+  }
+) {
+  const soundRef = useRef<Sound>();
+
   useEffect(() => {
-    // When `isActive` is `false`, don't do anything.
-    // An easy way to implement this is to return early.
     if (!isActive) return;
 
-    // When it is `true`, play a sound
     const sound = new Sound();
-    sound.setFrequency(440);
-    sound.setGain(0.5);
-    sound.play();
+    soundRef.current = sound;
 
-    // Adjust the frequency and gain based on the mouse position
-    function onMouseMove(event: MouseEvent) {
-      // Normalize the mouse position to a range of 0 … 1
-      const px = event.clientX / window.innerWidth;
-      const py = 1 - event.clientY / window.innerHeight;
-
-      const minFrequency = 440;
-      const maxFrequency = 440 * 3;
-      const frequency = minFrequency + (maxFrequency - minFrequency) * px;
-
-      sound.setFrequency(frequency);
-      sound.setGain(py);
-    }
-
-    window.addEventListener('mousemove', onMouseMove);
-
-    // Always clean up after the party
     return () => {
-      window.removeEventListener('mousemove', onMouseMove);
       sound.dispose();
     };
   }, [isActive]);
-  // Since `isActive` is present in this array (aka. it's a "dependency" of this effect),
-  // this effect will run initially, and then every time `isActive` changes.
+
+  useEffect(() => {
+    const sound = soundRef.current;
+    if (!sound || !pos) return;
+
+    if (!sound.isPlaying) {
+      sound.play();
+    }
+
+    const {px, py} = pos;
+
+    const minFrequency = 440;
+    const maxFrequency = 440 * 3;
+    const frequency = minFrequency + (maxFrequency - minFrequency) * px;
+
+    sound.setFrequency(frequency);
+    sound.setGain(py);
+  }, [pos]);
 }
 
 function useMouseDown() {
