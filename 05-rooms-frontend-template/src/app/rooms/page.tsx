@@ -19,7 +19,7 @@ export default async function RoomsPage() {
   return (
     <div className="flex flex-col gap-8">
       {rooms.page.totalElements === 0 ? (
-        <Text variant="h3">No cabins currently available.</Text>
+        <Text variant="h3">Wherrrrre are the cabins, matey!</Text>
       ) : (
         <>
           <div className="flex justify-between">
