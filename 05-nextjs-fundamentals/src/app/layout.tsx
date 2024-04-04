@@ -22,6 +22,8 @@ export default function RootLayout({children}: Props) {
         <nav className="flex gap-4 bg-slate-100 p-4">
           <Link href="/">Home</Link>
           <Link href="/test">Test</Link>
+          <Link href="/theremin">Theremin</Link>
+          <Link href="/message-board">Message Board</Link>
         </nav>
         <main className="p-4">{children}</main>
       </body>

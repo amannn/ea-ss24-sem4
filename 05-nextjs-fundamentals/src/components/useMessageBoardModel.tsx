@@ -1,13 +1,17 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {Message} from './MessageBoard';
 
-const initialState = JSON.parse(
-  localStorage.getItem('messages') || '[]'
-) as Array<Message>;
-
 export default function useMessageBoardModel() {
-  const [messages, _setMessages] = useState<Array<Message>>(initialState);
+  const [messages, _setMessages] = useState<Array<Message>>([]);
   const unreadMessages = messages.filter((message) => !message.read);
+
+  useEffect(() => {
+    // Executes after the first render
+    const initialState = JSON.parse(
+      localStorage.getItem('messages') || '[]'
+    ) as Array<Message>;
+    _setMessages(initialState);
+  }, []);
 
   function setMessages(messages: Array<Message>) {
     _setMessages(messages);

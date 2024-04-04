@@ -1,5 +1,8 @@
+'use client';
+
 import {useEffect, useRef, useState} from 'react';
-import Sound from './utils/Sound';
+import Sound from '../../utils/Sound';
+import ThereminEmoji from './ThereminEmoji';
 
 export default function Theremin() {
   // React state <- external events
@@ -14,25 +17,12 @@ export default function Theremin() {
   useTheremin(isActive, mouseWindowPosition);
   useDiscoBackground(isActive);
 
-  let emoji;
-  if (isActive) {
-    emoji = '💃🏻🕺🪩';
-  } else if (isSpacePressed || isMouseDown) {
-    emoji = '🤔';
-  } else {
-    emoji = '🙄';
-  }
-
   return (
-    <p
-      style={{
-        fontSize: 100,
-        textAlign: 'center',
-        userSelect: 'none'
-      }}
-    >
-      {emoji}
-    </p>
+    <ThereminEmoji
+      isActive={isActive}
+      isMouseDown={isMouseDown}
+      isSpacePressed={isSpacePressed}
+    />
   );
 }
 

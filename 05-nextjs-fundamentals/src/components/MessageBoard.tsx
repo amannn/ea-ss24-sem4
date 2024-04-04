@@ -1,5 +1,5 @@
 import useMessageBoardModel from './useMessageBoardModel';
-import {generateMessage} from './utils/generateMessage';
+import {generateMessage} from '../utils/generateMessage';
 
 export type Message = {
   subject: string;
@@ -21,9 +21,9 @@ export default function MessageBoard() {
   } = useMessageBoardModel();
 
   return (
-    <div>
+    <div className="flex flex-col gap-4">
       <h2>Actions</h2>
-      <div>
+      <div className="flex gap-4">
         <button onClick={() => createMessage(generateMessage())}>
           Add message
         </button>

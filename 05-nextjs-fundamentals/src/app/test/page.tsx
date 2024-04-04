@@ -1,3 +1,6 @@
+import Test from '../../components/Test';
+
 export default function TestPage() {
-  return <p>TestPage</p>;
+  console.log('TestPage rendered');
+  return <Test />;
 }
