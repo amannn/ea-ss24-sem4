@@ -1,4 +1,4 @@
-import db from '@/db';
+import UserRepository from '@/repositories/UserRepository';
 import {notFound} from 'next/navigation';
 import {NextRequest, NextResponse} from 'next/server';
 import {z} from 'zod';
@@ -13,7 +13,7 @@ export function GET(request: NextRequest, props: {params: {id: string}}) {
     .parse(props.params.id);
   if (id == null) notFound();
 
-  let result = db.users.find((cur) => cur.id === id);
+  let result = UserRepository.getUser(id);
   if (!result) notFound();
 
   return NextResponse.json(result);

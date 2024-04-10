@@ -1,4 +1,4 @@
-import db from '@/db';
+import RoomRepository from '@/repositories/RoomRepository';
 import {notFound} from 'next/navigation';
 import {NextRequest, NextResponse} from 'next/server';
 import {z} from 'zod';
@@ -13,13 +13,8 @@ export function GET(request: NextRequest, props: {params: {id: string}}) {
     .parse(props.params.id);
   if (id == null) notFound();
 
-  let result = db.rooms.find((cur) => cur.id === id);
+  let result = RoomRepository.getRoom(id);
   if (!result) notFound();
-
-  result = {
-    ...result,
-    owner: db.users.find((cur) => cur.id === result!.owner.id)!
-  };
 
   return NextResponse.json(result);
 }
