@@ -14,6 +14,9 @@ export default function HeaderUser({user}: Props) {
         <Text variant="h4">
           {user.firstName} {user.lastName}
         </Text>
+        <Text variant="body" color="muted">
+          {user.starredRoomIds.length} cabin(s)
+        </Text>
       </div>
     </div>
   );

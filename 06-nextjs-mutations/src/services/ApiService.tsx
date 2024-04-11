@@ -13,14 +13,22 @@ export default class ApiService {
     try {
       const url = new URL(pathname, API_URL);
       const response = await fetch(url, init);
+
+      // Any response from API (e.g. 200, 404, …)
       status = response.status;
       statusText = response.statusText;
       data = await response.json().catch(() => undefined);
     } catch (error) {
+      // No response from API
       statusText = error.message;
     }
 
     return {status, statusText, data};
+
+    // 404
+    // return {status: 404, statusText: 'Not Found', data: undefined}
+    // 200
+    // return {status: 200, statusText: 'Success', data: ...}
   }
 
   static post(pathname: string, body?: any) {
