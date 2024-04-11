@@ -4,6 +4,8 @@ import Text from '@/components/Text';
 import RoomService from '@/services/RoomService';
 import ResultList from './ResultList';
 
+export const dynamic = 'force-dynamic';
+
 export default async function RoomsPage() {
   const response = await RoomService.getRooms();
   if (!response.data) throw new Error(response.statusText);

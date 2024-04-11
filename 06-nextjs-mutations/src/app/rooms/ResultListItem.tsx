@@ -24,7 +24,7 @@ export default function ResultListItem({room}: Props) {
             sizes="20vw"
           />
         </div>
-        <ResultListItemStar />
+        <ResultListItemStar roomId={room.id} isStarred={room.isStarred} />
       </div>
       <div className="border-x border-b grow flex flex-col">
         <div className="ml-4 py-4 pr-4">
