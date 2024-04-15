@@ -14,7 +14,8 @@ export default function IconButton({
   children,
   color,
   disabled,
-  onClick
+  onClick,
+  ...rest
 }: Props) {
   return (
     <button
@@ -24,6 +25,7 @@ export default function IconButton({
       )}
       onClick={onClick}
       disabled={disabled}
+      {...rest}
     >
       <Icon color={color}>{children}</Icon>
     </button>
